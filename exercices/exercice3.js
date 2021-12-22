@@ -58,6 +58,17 @@
   Écrivez un programme qui créé un fichier texte (de façon asynchrone) encodé
   en utf8 contenant le message `Ceci est un message écrit par Node JS`.
 **/
+const fileSystem = require('fs');
+
+const fileContent = "`Ceci est un message écrit par Node JS"
+
+const filePath = "exercice3.txt";
+
+fileSystem.writeFile(filePath,fileContent, (err) => {
+  if (err) throw err;
+
+  console.log("Le fichier a correctement été créé")
+})
 
 /**
   2.
@@ -74,6 +85,17 @@
   doivent souvent prévoir d'accepter des arguments qui seront fournis par les
   méthodes asynchrones qui les exécutent.
 **/
+const file = "exercice3.txt"
+
+fileSystem.access(file, fileSystem.constants.F_OK, (err) => {
+  if (err) {
+    console.error(
+      `${file} ${err.code === 'ENOENT' ? 'does not exist' : 'is read-only'}`);
+  } else {
+    console.log(`${file} exists, and it is writable`);
+  }
+});
+
 
 /**
   3.

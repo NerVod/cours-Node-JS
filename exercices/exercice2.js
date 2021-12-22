@@ -57,7 +57,7 @@
 
 console.log("Je suis un module principal");
 
-const moduleSecondaire = require("../exercice2-module");
+import moduleSecondaire from "../exercice2-module.js";
 
 /**
     2.
@@ -102,7 +102,9 @@ const moduleSecondaire = require("../exercice2-module");
       - Déclarez un objet qui contient 1 propriété et 1 méthode qui utilise
       cette propriété pour l'afficher dans la console. Utilisez cet objet dans
       votre module principal en exécutant sa méthode.
-**/
+      **/
+import tableau from "../exercice2-module";
+console.log(tableau[0] + " " + tableau[1] + " " + tableau[2]);
 
 /**
  * Sami Radi - VirtuoWorks® - tous droits réservés©
