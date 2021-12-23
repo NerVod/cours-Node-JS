@@ -44,7 +44,7 @@
   ATTENTION, l'Array contient toujours des chaînes de caractère même si les
   arguments fournis à l'exécution sont des nombres.
 **/
-
+global.console.log(`message de test global nodejs`)
 /**
   Exercices :
 
@@ -104,6 +104,8 @@ lesDossiers();
     utilisant la fonction que vous avez créée.
 **/
 
+let nombre = Number(process.argv[2])
+
 let messageAccueil = function (nombre) {
   if (isNaN(nombre)) {
     console.log("Au revoir !");
@@ -113,12 +115,9 @@ let messageAccueil = function (nombre) {
     }
   }
 };
+messageAccueil(nombre)
 
-const nombre = function () {
-  let nombre = Number(process.argv[2]);
-  messageAccueil(nombre);
-};
-nombre();
+
 
 /**
  * Sami Radi - VirtuoWorks® - tous droits réservés©

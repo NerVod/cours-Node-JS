@@ -57,7 +57,9 @@
 
 console.log("Je suis un module principal");
 
-import moduleSecondaire from "../exercice2-module.js";
+module.require('../exercice2-module.js')
+
+// import moduleSecondaire from "../exercice2-module.js";
 
 /**
     2.
@@ -93,7 +95,8 @@ import moduleSecondaire from "../exercice2-module.js";
     --> Dans votre module principal (celui-ci), utilisez la fonction (qui sera
         donc une méthode de l'objet retourné par la méthode module.require())
 **/
-
+const fonctionDeLaPropriete = module.require('../exercice2-module.js');
+fonctionDeLaPropriete.fonctionPropriete();
 /**
     4.
     Dans votre module secondaire :
@@ -103,8 +106,12 @@ import moduleSecondaire from "../exercice2-module.js";
       cette propriété pour l'afficher dans la console. Utilisez cet objet dans
       votre module principal en exécutant sa méthode.
       **/
-import tableau from "../exercice2-module";
-console.log(tableau[0] + " " + tableau[1] + " " + tableau[2]);
+
+
+
+console.log(fonctionDeLaPropriete.tableau);
+
+
 
 /**
  * Sami Radi - VirtuoWorks® - tous droits réservés©
