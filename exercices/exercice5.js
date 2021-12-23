@@ -37,13 +37,15 @@
     Initialisez un projet npm et installez le module chalk. Puis verifiez
     qu'il est bien installé dans le dossier node_modules de votre projet.
 **/
-
+// npm i chalk
 /**
     2.
     Chargez le module chalk dans votre module principal et affichez dans la
     console en VERT un message pour indiquer que chalk est installé.
 **/
+import chalk from 'chalk';
 
+console.log(chalk.green('Hello World'));
 /**
     3.
     - Affichez un message d'erreur en rouge
@@ -53,6 +55,10 @@
     - Affichez un message important en gras
       * par exemple: `Ceci est un message important !`
 **/
+console.log(chalk.red('message d\'erreur'));
+console.log(chalk.gray('message de debug'));
+console.log(chalk.bold('message important'))
+
 
 /**
     4.

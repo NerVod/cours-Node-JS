@@ -60,11 +60,11 @@
 **/
 const fileSystem = require('fs');
 
-const fileContent = "`Ceci est un message écrit par Node JS"
-
 const filePath = "exercice3.txt";
 
-fileSystem.writeFile(filePath,fileContent, (err) => {
+const fileContent = "`Ceci est un message écrit par Node JS"
+
+fileSystem.writeFile(filePath,fileContent,'utf8', (err) => {
   if (err) throw err;
 
   console.log("Le fichier a correctement été créé")
@@ -87,12 +87,21 @@ fileSystem.writeFile(filePath,fileContent, (err) => {
 **/
 const file = "exercice3.txt"
 
+// fileSystem.access(file, fileSystem.constants.F_OK, (err) => {
+//   if (err) {
+//     console.error(
+//       `${file} ${err.code === 'ENOENT' ? 'does not exist' : 'is read-only'}`);
+//   } else {
+//     console.log(`${file} exists, and it is writable`);
+//   }
+// });
+
 fileSystem.access(file, fileSystem.constants.F_OK, (err) => {
   if (err) {
     console.error(
       `${file} ${err.code === 'ENOENT' ? 'does not exist' : 'is read-only'}`);
   } else {
-    console.log(`${file} exists, and it is writable`);
+    fileSystem.readFile('exercice3.txt','utf8', function () {console.log('erreur le fichier ne s\'ouvre pas')} );
   }
 });
 
@@ -103,6 +112,18 @@ fileSystem.access(file, fileSystem.constants.F_OK, (err) => {
   si il existe, dont le nom/chemin est passé en argument lors de l'exécution du
   programme.
 **/
+const fs = require('fs');
+
+let lireFichier = function(chemin) {
+  try {
+    let data = fs.readFileSync(chemin, 'utf8',)
+    console.log(`données : `+ data.toString());
+    } 
+    catch {
+      console.log('Error : pas de fichier à lire');
+    }
+}
+lireFichier('./exercice3.txt');
 
 /**
   4.
@@ -114,7 +135,8 @@ fileSystem.access(file, fileSystem.constants.F_OK, (err) => {
   ATTENTION: Vous devez charger le module FileSystem dans votre module
   secondaire.
 **/
-
+const fichierDeporte = module.require('../exercice2-module.js')
+fichierDeporte.lireFichier('./exercice3.txt')
 /**
  * Sami Radi - VirtuoWorks® - tous droits réservés©
 **/

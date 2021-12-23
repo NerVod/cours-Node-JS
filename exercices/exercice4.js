@@ -86,13 +86,30 @@
     votre ordinateur. Vérifiez qu'elle correspond bien à la liste obtenues à
     l'aide de la commande système proposée plus haut.
 **/
+const dns = require('dns')
+const servers = dns.getServers()
+console.log(servers)
 
+// '2a01:cb04:4f5:8800:8ec5:b4ff:fe5e:440',
+//  2a01:cb04:4f5:8800:38b2:449c:b346:3efc // comparaison via ipconfig
+//   'fe80::8ec5:b4ff:fe5e:440',
+//    fe80::8ec5:b4ff:fe5e:440%19  // comparaison via ipconfig
+//   '192.168.1.1'
+//    192.168.1.19  //comparaison via ipconfig
 /**
     2.
     Utilisez la méthode .lookup() du module DNS de Node JS pour afficher dans
     votre console l'adresse IPv4 correspondant au nom de domaine www.fnac.com et
     vérifiez qu'elle correspond bien à celle que je vous donne plus haut.
 **/
+
+const options = {
+  all:true,
+}
+
+const fnac = dns.lookup('fnac.com', options,(err, addresses)=>
+console.log('adresses : %j', addresses));
+
 
 /**
     3.
@@ -115,6 +132,20 @@
     - Vous devez modulariser ce programme (votre fonction doit être dans un
       module secondaire).
 **/
+const fs = require('fs');
+let fonctionModule = require('./exercice4-Module.js');
+
+const filePath = "exercice4-Module.js";
+
+fs.writeFile(filePath," nouveau module", (err) => {
+  if (err) throw err;
+  console.log(`erreur de création de fichier : ` + err)
+})
+
+
+
+
+fonctionModule.fonctionUrlDeportee(www.nervod.com);
 
 /**
  * Sami Radi - VirtuoWorks® - tous droits réservés©

@@ -1,0 +1,15 @@
+{
+  "name": "exercices",
+  "version": "1.0.0",
+  "description": "premiere serie exos",
+  "main": "exercice0.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ben",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "chalk": "^5.0.0"
+  }
+}

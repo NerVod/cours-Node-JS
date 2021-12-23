@@ -30,3 +30,32 @@ module.exports = {
 // module.exports = { 
 //     tableau: tableau 
 //   } ;
+
+
+/////////////////////////////////////////
+// exercice 3
+const fs = require('fs');
+
+let lireFichier = function(chemin) {
+  try {
+    let data = fs.readFileSync(chemin, 'utf8',)
+    console.log(`données deportees: `+ data.toString());
+    } 
+    catch {
+      console.log('Error deporte : pas de fichier à lire');
+    }
+}
+
+module.exports = {
+  lireFichier: function(chemin) {
+    try {
+      let data = fs.readFileSync(chemin, 'utf8',)
+      console.log(`données deportees: `+ data.toString());
+      } 
+      catch {
+        console.log('Error deporte : pas de fichier à lire');
+      }
+  }
+}
+
+
