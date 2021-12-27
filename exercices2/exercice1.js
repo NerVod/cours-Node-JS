@@ -23,6 +23,33 @@
   Attention, vous devez pensez à retourner dans l'en-tête de votre réponse HTTP
   le Mime Type correct (pour le HTML, il s'agit du Mime Type text/html)
 **/
+const http = require('http');
+const httpServer = http.createServer();
+const port = 8080;
+
+httpServer.on("request" , function( requete , reponse ){
+  const reqUrl = requete.url;
+  console.log("requete: ", requete);
+
+  const reponseDuServeur = "mon Serveur pour exercices Node JS";
+
+  reponse.writeHead(200, "En fonction : ok", {
+    "Content-Type": "Text/html",
+    "Content-Length": "Buffer.byteLength",
+  })
+
+  reponse.write(reponseDuServeur, function() {
+    reponse.end();
+  });
+
+});
+
+httpServer.listen(port, function() {
+  console.log(`Le serveur écoute sur le port ${port}.`)
+})
+
+
+
 
 /**
  * Sami Radi - VirtuoWorks® - tous droits réservés©
