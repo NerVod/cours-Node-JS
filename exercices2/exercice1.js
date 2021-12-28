@@ -31,7 +31,7 @@ httpServer.on("request" , function( requete , reponse ){
   const reqUrl = requete.url;
   console.log("requete: ", requete);
 
-  const reponseDuServeur = "mon Serveur pour exercices Node JS";
+  const reponseDuServeur = "mon Serveur pour exercices Node JS exo1";
 
   reponse.writeHead(200, "En fonction : ok", {
     "Content-Type": "Text/html",

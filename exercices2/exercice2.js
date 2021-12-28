@@ -28,6 +28,49 @@
   la requête HTTP.
 **/
 
+
+
+const http = require('http');
+const httpServer = http.createServer();
+const port = 8080;
+
+httpServer.on("request" , function( requeteHTTP , reponseHTTP ){
+ 
+ const urlEnFormatBrut = requeteHTTP.url;
+ const parsedUrl = new URL(urlEnFormatBrut, `http://${requeteHTTP.rawHeaders[1]}`);
+
+ parsedUrl;
+
+ const suffixe = parsedUrl.pathname;
+
+ let corps;
+
+ switch(suffixe) {
+   case'/index':
+   corps = Buffer.from('Bravo c\'est la bonne page !');
+   break;
+   default:
+     corps = Buffer.from('vérifier le chemin, il doit contenir "/index !"');
+     break;
+ }
+   
+////////////////////////////////////
+
+  reponseHTTP.writeHead(200, "En fonction : ok", {
+    "Content-Type": "Text/html",
+    "Content-Length": "Buffer.byteLength",
+  })
+
+  reponseHTTP.write(corps, function() {
+    reponseHTTP.end();
+  });
+
+});
+
+httpServer.listen(port)
+
+
+
 /**
   2.
   Améliorez votre serveur HTTP pour que, si l'URL employé pour effectuer la
