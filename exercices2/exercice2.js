@@ -30,44 +30,45 @@
 
 
 
-const http = require('http');
-const httpServer = http.createServer();
-const port = 8080;
+// const http = require('http');
+// const httpServer = http.createServer();
+// const port = 8080;
+// let status = 200;
 
-httpServer.on("request" , function( requeteHTTP , reponseHTTP ){
+// httpServer.on("request" , function( requeteHTTP , reponseHTTP ){
  
- const urlEnFormatBrut = requeteHTTP.url;
- const parsedUrl = new URL(urlEnFormatBrut, `http://${requeteHTTP.rawHeaders[1]}`);
+//  const urlEnFormatBrut = requeteHTTP.url;
+//  const parsedUrl = new URL(urlEnFormatBrut, `http://${requeteHTTP.rawHeaders[1]}`);
 
- parsedUrl;
+//  parsedUrl;
 
- const suffixe = parsedUrl.pathname;
+//  const suffixe = parsedUrl.pathname;
 
- let corps;
+//  let corps;
 
- switch(suffixe) {
-   case'/index':
-   corps = Buffer.from('Bravo c\'est la bonne page !');
-   break;
-   default:
-     corps = Buffer.from('vérifier le chemin, il doit contenir "/index !"');
-     break;
- }
+//  switch(suffixe) {
+//    case'/index':
+//    corps = Buffer.from('Bravo c\'est la bonne page !');
+//    break;
+//    default:
+//      corps = Buffer.from('vérifier le chemin, il doit contenir "/index !"');
+//      break;
+//  }
    
-////////////////////////////////////
+// ////////////////////////////////////
 
-  reponseHTTP.writeHead(200, "En fonction : ok", {
-    "Content-Type": "Text/html",
-    "Content-Length": "Buffer.byteLength",
-  })
+//   reponseHTTP.writeHead(200, "En fonction : ok", {
+//     "Content-Type": "Text/html",
+//     "Content-Length": "Buffer.byteLength",
+//   })
 
-  reponseHTTP.write(corps, function() {
-    reponseHTTP.end();
-  });
+//   reponseHTTP.write(corps, function() {
+//     reponseHTTP.end();
+//   });
 
-});
+// });
 
-httpServer.listen(port)
+// httpServer.listen(port)
 
 
 
@@ -80,7 +81,50 @@ httpServer.listen(port)
    - le corps, un message en format HTML valide du type :
      L'URL demandé n'existe pas.
 **/
+const http = require('http');
+const httpServer = http.createServer();
+const port = 8080;
+let status = '';
 
+httpServer.on("request" , function( requeteHTTP , reponseHTTP ){
+ 
+ const urlEnFormatBrut = requeteHTTP.url;
+ const parsedUrl = new URL(urlEnFormatBrut, `http://${requeteHTTP.rawHeaders[1]}`);
+
+ parsedUrl;
+
+ const suffixe = parsedUrl.pathname;
+
+ let corps;
+ let reponseServeur;
+
+ switch(suffixe) {
+   case'/index':
+   status = 200;
+   corps = Buffer.from('Bravo c\'est la bonne page !');
+   reponseServeur = "La page est en affichage , index est bien dans l'URL "
+   break;
+   default:
+     status = 404
+     corps = Buffer.from('vérifier le chemin, il doit contenir "/index !"');
+     reponseServeur = "La page est introuvable : /index n'est pas dans l\'URL"
+     break;
+ }
+   
+////////////////////////////////////
+
+  reponseHTTP.writeHead(status, reponseServeur, {
+    "Content-Type": "Text/html",
+    "Content-Length": "Buffer.byteLength",
+  })
+
+  reponseHTTP.write(corps, function() {
+    reponseHTTP.end();
+  });
+
+});
+
+httpServer.listen(port)
 /**
  * Sami Radi - VirtuoWorks® - tous droits réservés©
 **/
