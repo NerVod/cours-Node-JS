@@ -27,60 +27,23 @@
   HTML. Puis, vous produirez une réponse HTTP contenant le contenu du fichier
   HTML.
 **/
-///////////////////////////////////////////////////////////
-// const http = require('http');
-// const url = require('url');
-// const fs = require('fs');
-// const path = require('path');
-// const httpServer = http.createServer();
 
-// httpServer.on('request', function(requeteHTTP, reponseHTTP) {
-//   const urlEnFormatBrut = requeteHTTP.url;
-//   const parsedUrl = new URL(urlEnFormatBrut, `http://${requeteHTTP.rawHeaders[1]}`) ;
-
-//   // const baseFolder = process.cwd();
-//   // const requiredFilePath = path.normalize(baseFolder + parsedUrl.path);
-//   const requiredFilePath= ('./index.html')
-
-//   let corps;
-
-//   fs.readFile(requiredFilePath, function (err, data) {
-//     if(err) {
-//       let corps = Buffer.from('<!doctype html><html><head><meta charset="UTF-8"><title>Erreur 404</title></head><body><h1>Erreur 404</h1><p>Erreur 404 : Cette page n\'existe pas.</p></body></html>');
-
-//       reponseHTTP.writeHead(404, {
-//         'Content-Type': 'text/plain',
-//         'Content-Length': 'corps.length'
-//       });
-
-//     } else {
-//       let corps = data;
-
-//       reponseHTTP.writeHead(200, {
-//         'Content-Type': 'text/plain',
-//         'Content-Length': 'corps.length'
-//       });
-//     };
-
-//     reponseHTTP.write(corps, function() {
-//       reponseHTTP.end();
-//     });
-//   });
-// });
-
-// httpServer.listen(8080);
-/////////////////////////////////////////////////////////////////
 
 const http = require('http')
 const fs = require('fs')
+const path = "index.html"
 
-http.createServer(function(req, res) {
-  fs.readFile()
+const server = http.createServer((req, res) =>{
+  res.writeHead(200, {
+    "Content-Type": "text/html; charset=utf8"
+  })
+  fs.readFile(path, 'utf8', (err, data) => {
+    if(err) throw err
+    res.write(data)
+    res.end()
+  })
 })
-
-
-
-
+server.listen(8080);
 
 
 
