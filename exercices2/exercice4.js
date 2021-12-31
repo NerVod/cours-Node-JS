@@ -38,6 +38,71 @@
 
   N'oubliez pas de préciser le code 404 dans les en-têtes de la réponse HTTP.
 **/
+const http = require('http')
+const fs = require('fs')
+const server = http.createServer();
+
+let path = ""
+let status;
+
+
+server.on("request", function(req, res){
+
+  const urlEnFormatBrut = req.url;
+  const parsedUrl = new URL(urlEnFormatBrut, `http://${req.rawHeaders[1]}`);
+ 
+  parsedUrl;
+ 
+  const suffixe = parsedUrl.pathname;
+
+ 
+if (suffixe === '/accueil') {
+  status = 200;
+  path = "home.html";
+  res.writeHead(status, {
+    "Content-Type": "text/html; charset=utf8"
+  })
+  fs.readFile(path, 'utf8', (err, data) => {
+    if(err) throw err
+    res.write(data)
+    res.end()
+  })
+
+} else if (suffixe === "/apropos") {
+    status = 200;
+    path= "about.html";
+    res.writeHead(status, {
+      "Content-Type": "text/html; charset=utf8"
+    })
+    fs.readFile(path, 'utf8', (err, data) => {
+      if(err) throw err
+      res.write(data)
+      res.end()
+    })
+} else {
+  status = 404;
+  path ="404.html";
+  res.writeHead(status, {
+    "Content-Type": "text/html; charset=utf8"
+  })
+  fs.readFile(path, 'utf8', (err, data) => {
+    if(err) throw err
+    res.write(data)
+    res.end()
+  })
+}
+})
+    
+
+
+server.listen(8080);
+
+  
+     
+
+  
+
+
 
 /**
  * Sami Radi - VirtuoWorks® - tous droits réservés©

@@ -31,7 +31,7 @@
 
 const http = require('http')
 const fs = require('fs')
-const path = "index.html"
+const path = "home.html"
 
 const server = http.createServer((req, res) =>{
   res.writeHead(200, {
