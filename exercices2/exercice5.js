@@ -44,6 +44,68 @@
     https://nodejs.org/api/path.html#path_path_normalize_p
 **/
 
+const http = require("http");
+const fs = require("fs");
+const server = http.createServer();
+const path = require("path");
+const process = require("process");
+const { constants } = require("buffer");
+let dossierExecution = process.cwd().normalize();
+let filePath = "";
+let status;
+
+///////////////////////////////////////////////////////////////
+///// verif nom dossier des fichiers
+const lesDossiers = function () {
+  console.log("nom du fichier source : ", __filename);
+  console.log("nom du dossier source :", __dirname);
+  let dossierExecution = process.cwd().normalize();
+  console.log(dossierExecution);
+  return dossierExecution
+};
+lesDossiers();
+///////////////////////////////////////////////////////////////////
+
+server.on("request", function (req, res) {
+  const urlEnFormatBrut = req.url;
+  const parsedUrl = new URL(urlEnFormatBrut, `http://${req.rawHeaders[1]}`);
+
+  parsedUrl;
+
+  let suffixe = parsedUrl.pathname;
+
+  let file = dossierExecution + suffixe;
+  let file404 = dossierExecution + '\\404.html'
+
+  fs.access(file, constants.F_OK | constants.W_OK, (err) => {
+    if (err) {
+      status = 404;
+      filePath = file404;
+      res.writeHead(status, {
+        "Content-Type": "text/html; charset=utf8",
+      });
+      fs.readFile(filePath, "utf8", (err, data) => {
+        if (err) throw err;
+        res.write(data);
+        res.end();
+      });
+    } else {
+      status = 200;
+      filePath = file;
+      res.writeHead(status, {
+        "Content-Type": "text/html; charset=utf8",
+      });
+      fs.readFile(filePath, "utf8", (err, data) => {
+        if (err) throw err;
+        res.write(data);
+        res.end();
+      });
+    }
+  });
+});
+
+server.listen(8080);
+
 /**
  * Sami Radi - VirtuoWorks® - tous droits réservés©
-**/
+ **/
