@@ -1,0 +1,14 @@
+body {
+    font-size: 1.1em;
+    background-color: bisque;
+}
+
+h1 {
+    color: darkgreen;
+}
+
+.chat {
+    height :200px;
+    width: 150px;
+    margin: auto;
+}
