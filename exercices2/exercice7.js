@@ -40,7 +40,93 @@
   réponse HTTP, votre serveur HTTP doit remplacer dans le contenu du fichier les
   deux chaînes de caractères par respectivement votre nom et votre prénom.
 **/
+const http = require("http");
+const fs = require("fs");
+const server = http.createServer();
+const path = require("path");
+const process = require("process");
+const { constants } = require("buffer");
+const mime = require("mime");
+const { brotliCompressSync } = require("zlib");
 
+let dossierExecution = process.cwd().normalize();
+let filePath = "";
+let status;
+
+let dateRequete = new Date();
+
+
+///////////////////////////////////////////////////////////////
+///// verif nom dossier des fichiers
+const lesDossiers = function () {
+  console.log("nom du fichier source : ", __filename);
+  console.log("nom du dossier source :", __dirname);
+  let dossierExecution = process.cwd().normalize();
+  console.log(dossierExecution);
+  return dossierExecution
+};
+lesDossiers();
+//////////////////////////////////////////////////////////////
+
+
+server.on("request", function (req, res) {
+  const urlEnFormatBrut = req.url;
+  const parsedUrl = new URL(urlEnFormatBrut, `http://${req.rawHeaders[1]}`);
+
+  parsedUrl;
+  console.log(parsedUrl);
+
+  let suffixe = parsedUrl.pathname;
+
+  let file = dossierExecution + suffixe;
+  let file404 = dossierExecution + '\\404.html'
+  
+
+  
+
+  fs.access(file, constants.F_OK | constants.W_OK, (err) => {
+    if (err) {
+      status = 404;
+      filePath = file404;
+      res.writeHead(status, {
+        "Content-Type": "text/html; charset=utf8",
+      });
+      fs.readFile(filePath, "utf8", (err, data) => {
+        if (err) throw err;
+        res.write(data);
+        res.end();
+      });
+    } else {
+      status = 200;
+      filePath = file;
+      let mimeType = mime.getType(path.extname(filePath));
+      // console.log(`filepath : `, filePath)
+      // console.log(`mime type : `,mimeType);
+      res.writeHead(status, {
+        "Content-Type": mimeType,
+        
+      });
+      fs.readFile(filePath, "utf8", (err, data) => {
+        if (err) throw err;
+
+        
+        const regexDate = /##dateDuJour##/;
+        const regexNom = /{{ nom }}/;
+        const regexPrenom = /{{ prenom }}/;
+        data = data.replace(regexDate, dateRequete);
+        data = data.replace(regexNom, "Jeannerot");
+        data = data.replace(regexPrenom, "Benjamin");
+        data.toString();
+
+
+        res.write(data);
+        res.end();
+      });
+    }
+  });
+});
+
+server.listen(8080);
 /**
  * Sami Radi - VirtuoWorks® - tous droits réservés©
 **/

@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "-": "^0.0.1",
     "mime": "^3.0.0",
-    "mime-type": "^4.0.0"
+    "mime-type": "^4.0.0",
+    "types": "^0.1.1"
   }
 }

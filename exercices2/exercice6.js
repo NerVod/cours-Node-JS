@@ -58,6 +58,8 @@ const path = require("path");
 const process = require("process");
 const { constants } = require("buffer");
 const mime = require("mime");
+
+
 let dossierExecution = process.cwd().normalize();
 let filePath = "";
 let status;
@@ -79,6 +81,7 @@ server.on("request", function (req, res) {
   const parsedUrl = new URL(urlEnFormatBrut, `http://${req.rawHeaders[1]}`);
 
   parsedUrl;
+  console.log(parsedUrl);
 
   let suffixe = parsedUrl.pathname;
 
@@ -105,7 +108,8 @@ server.on("request", function (req, res) {
       console.log(`filepath : `, filePath)
       console.log(`mime type : `,mimeType);
       res.writeHead(status, {
-        "Content-Type": mimeType, 
+        "Content-Type": mimeType,
+        
       });
       fs.readFile(filePath, "utf8", (err, data) => {
         if (err) throw err;
