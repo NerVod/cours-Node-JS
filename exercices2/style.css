@@ -12,3 +12,16 @@ h1 {
     width: 150px;
     margin: auto;
 }
+
+form {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+form input{
+    margin: 5px;
+    width: 200px;
+    
+
+}
