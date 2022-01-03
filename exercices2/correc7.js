@@ -74,11 +74,11 @@ server.on('request', (req, res) => {
       console.log('file: ', file);
       
       // On vérifie le filePath du fichier pour déterminer les remplacements à effectuer
-      if (filePath === './info.html') {
+      if (filePath === './about.html') {
         file = file.toString().replace('{{prenom}}', 'Alex').replace('{{nom}}', 'Masson');
       }
 
-      if (filePath === './date.html') {
+      if (filePath === './home.html') {
         const date = new Date();
         const today = date.toLocaleDateString('fr-FR');
         file = file.toString().replace('##date du jour##', today);
@@ -99,8 +99,8 @@ server.on('request', (req, res) => {
 // console.log('file : ', file);
 
 
-server.listen(8080, () => {
-  console.log('Server lancé sur le port 8080');
+server.listen(6060, () => {
+  console.log('Server lancé sur le port 6060');
 });
 
 /**
