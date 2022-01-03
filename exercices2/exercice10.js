@@ -118,170 +118,117 @@
     https://nodejs.org/api/url.html#class-urlsearchparams
   Elle permet, à partir d'une URL, de créer un objet contenant les paramètres de query string.
 **/
+
+// function getPromisePage(path) {
+//   let pageToGet = '';
+//   fsPromises.readFile(
+//     path,
+//     'utf-8',
+//   )
+//   .then(data => {
+//     pageToGet = data.toString();
+//     console.log('fichier reçu :' ,pageToGet)
+
+//     return pageToGet
+//   })
+//   .catch(error => {
+//     throw new Error(error)
+//   })
+// };
+
+// getPromisePage('./home.html');
+
+const { error } = require("console");
 const http = require("http");
-const fs = require("fs");
 const server = http.createServer();
-const path = require("path");
+const fs = require("fs");
+// let status = "";
+// let mimeType = "text/html";
 const process = require("process");
-const { constants } = require("buffer");
-const mime = require("mime");
-const { brotliCompressSync } = require("zlib");
+const path = require('path');
+const dossierExecution = process.cwd().normalize();
+// let filePath = "";
 
+server.on("request", (req, res) => {
+  // console.log("requête reçue : ", req.url);
 
+  const reqUrl = req.url;
 
-let dossierExecution = process.cwd().normalize();
-let filePath = "";
-let status;
+  let filePath = "";
+  let mimeType = "text/plain";
 
-let dateRequete = new Date();
+  switch (reqUrl) {
+    case "/home.html":
+      (status = 200), (filePath = "./home.html");
+      mimeType = "text/html";
+      break;
 
+    case "/about.html":
+      (status = 200), (filePath = "./about.html");
+      mimeType = "text/html";
+      break;
 
-
-///////////////////////////////////////////////////////////////
-///// verif nom dossier des fichiers
-const lesDossiers = function () {
-  console.log("nom du fichier source : ", __filename);
-  console.log("nom du dossier source :", __dirname);
-  let dossierExecution = process.cwd().normalize();
-  console.log(dossierExecution);
-  return dossierExecution
-};
-lesDossiers();
-//////////////////////////////////////////////////////////////
-
-
-server.on("request", function (req, res) {
-  const method = req.method;
-  console.log(`la méthode est en : `, method);
-  const urlEnFormatBrut = req.url;
-  const parsedUrl = new URL(urlEnFormatBrut, `http://${req.rawHeaders[1]}`);
-
-  parsedUrl;
-  console.log(parsedUrl);
-
-  let suffixe = parsedUrl.pathname;
-
-  let file = dossierExecution + suffixe;
-  let file404 = dossierExecution + '\\404.html'
-  
-
-  
-
-  fs.access(file, constants.F_OK | constants.W_OK, (err) => {
-    if (err) {
+    default:
       status = 404;
-      filePath = file404;
-      res.writeHead(status, {
-        "Content-Type": "text/html; charset=utf8",
-      });
-      fs.readFile(filePath, "utf8", (err, data) => {
-        if (err) throw err;
-        res.write(data);
-        res.end();
-      });
+      filePath = "./404.html";
+      mimeType = "text/html";
+      break;
+  }
+
+  if (reqUrl.includes('.css')) {
+    mimeType = 'text/css';
+    filePath = './style.css';
+  }
+  if(reqUrl.includes('jpg')) {
+    mimeType = 'image/jpeg';
+    filePath = path.join(__dirname + reqUrl);
+    // console.log('chemin du fichier demandé :',filePath);
+  }
+
+  if(reqUrl.includes('png')) {
+    mimeType = 'image/png';
+    filePath = path.join(__dirname + reqUrl)
+  }
+
+  if(reqUrl.includes('pdf')){
+    mimeType = 'application/pdf';
+    filePath = path.join(__dirname + reqUrl)
+  }
+
+  // console.log("chemin du fichier demandé : ", filePath);
+
+  fs.readFile(filePath, (err, data) => {
+    let date = new Date();
+    let dateFrance = date.toLocaleDateString("fr-FR");
+    if (err) {
+      throw new Error(err);
     } else {
-      status = 200;
-      filePath = file;
-      let mimeType = mime.getType(path.extname(filePath));
-      // console.log(`filepath : `, filePath)
-      // console.log(`mime type : `,mimeType);
-      res.writeHead(status, {
+      let file = data;
+      // console.log("file ", file);
+
+      if (filePath === "/home.html") {
+        file = file.toString().replace("##dateDuJour##", dateFrance);
+        console.log("file pour home.html :",file);
+      }
+
+      if (filePath === "/about.html") {
+        file = file
+          .toString()
+          .replace("{{ nom }}", "Jeannerot")
+          .replace("{{ prenom }}", "Benjamin");
+      }
+
+      res.writeHead(200, {
         "Content-Type": mimeType,
-        
+        "Content-Length": Buffer.byteLength(file),
       });
-      fs.readFile(filePath, "utf8", (err, data) => {
-        if (err) throw err;
-
-
-        const regexDate = /##dateDuJour##/;
-
-
-        
-        const regexNom= /{{ nom }}/;
-        let urlLastName = parsedUrl.searchParams.get('name');
-        console.log(`nom de l'URL : `, urlLastName)
-
-        const regexPrenom = /{{ prenom }}/;
-        let urlFirstName = parsedUrl.searchParams.get('firstname');
-        console.log(`prénom de l'URL : `, urlFirstName)
-
-        if(urlLastName === null){
-          urlLastName = "Nom";
-        }
-        if(urlFirstName === null){
-          urlFirstName = "Prénom"
-        }
-
-        ///////// formulaire //////////////////
-        const regexTitre = /{{ titre }}/;
-        
-        const regexDescription = /{{ description }}/;
-        const regexDateFormulaire = /{{ date }}/;
-        
-        if(method === "get") {
-
-          let urlTitre = parsedUrl.searchParams.get('titre');
-          
-          let urlDescriptif= parsedUrl.searchParams.get('descriptif')
-          
-          let urlDate = parsedUrl.searchParams.get('date');
-
-          data = data.replace(regexTitre, urlTitre);
-          data = data.replace(regexDescription, urlDescriptif);
-          data = data.replace(regexDateFormulaire, urlDate);
-          
-          
-          data = data.replace(regexNom, urlLastName);
-          data = data.replace(regexPrenom, urlFirstName);
-          
-          data = data.replace(regexDate, dateRequete);
-          
-          data = data.toString();
-          return data;
-        }
-
-        let donnees = "";
-        if( method === "post"){
-
-          req.on("data", (morceauDeDonnee) => {
-            donnees += morceauDeDonnee;
-            donnees = donnees.toString();
-            return donnees
-          })
-          req.on('end', function(){
-            donnees;
-            console.log(`les données : `, donnees)
-            return donnees;
-          })
-
-          let queryStringMethodPost = new URLSearchParams(donnees);
-          console.log(`la query string de post :` , queryStringMethodPost)
-
-          let urlTitrePost = queryStringMethodPost.get('titre');
-          let urlDescriptifPost = queryStringMethodPost.get('descriptif');
-          let urlDatePost = queryStringMethodPost.get('date')
-
-          data = data.replace(regexTitre, urlTitrePost);
-          data = data.replace(regexDescription, urlDescriptifPost);
-          data = data.replace(regexDateFormulaire, urlDatePost);
-
-          data = data.toString();
-          
-          return data;
-
-        }
-          
-
-        res.write(data);
-        res.end();
-      });
+      res.write(file);
+      res.end();
     }
   });
 });
 
-// sur fichier about.html : query string : ?name=Jeannerot&firstname=Benjamin
-
 server.listen(8080);
 /**
  * Sami Radi - VirtuoWorks® - tous droits réservés©
-**/
+ **/
