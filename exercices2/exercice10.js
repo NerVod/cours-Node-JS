@@ -179,10 +179,14 @@ server.on("request", (req, res) => {
     mimeType = 'text/css';
     filePath = './style.css';
   }
-  if(reqUrl.includes('jpg')) {
+  if(reqUrl.includes('.jpg')) {
     mimeType = 'image/jpeg';
     filePath = path.join(__dirname + reqUrl);
     // console.log('chemin du fichier demandé :',filePath);
+  }
+  if(reqUrl.includes('.gif')) {
+    mimeType = 'image/gif';
+    filePath = path.join(__dirname + reqUrl);
   }
 
   if(reqUrl.includes('png')) {
@@ -197,21 +201,21 @@ server.on("request", (req, res) => {
 
   // console.log("chemin du fichier demandé : ", filePath);
 
+  let date = new Date();
+  let dateFrance = date.toLocaleDateString("fr-FR");
   fs.readFile(filePath, (err, data) => {
-    let date = new Date();
-    let dateFrance = date.toLocaleDateString("fr-FR");
     if (err) {
       throw new Error(err);
     } else {
       let file = data;
       // console.log("file ", file);
 
-      if (filePath === "/home.html") {
+      if (reqUrl === "/home.html") {
         file = file.toString().replace("##dateDuJour##", dateFrance);
         console.log("file pour home.html :",file);
       }
 
-      if (filePath === "/about.html") {
+      if (reqUrl === "/about.html") {
         file = file
           .toString()
           .replace("{{ nom }}", "Jeannerot")
