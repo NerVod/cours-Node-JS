@@ -139,204 +139,427 @@
 // getPromisePage('./home.html');
 
 
-const { error } = require("console");
+// const { error } = require("console");
+// const http = require("http");
+// const server = http.createServer();
+// const fs = require("fs");
+// // let status = "";
+// // let mimeType = "text/html";
+// const process = require("process");
+// const path = require('path');
+// const { homedir } = require("os");
+// const dossierExecution = process.cwd().normalize();
+// // let filePath = "";
+
+// server.on("request", (req, res) => {
+//   console.log("requête reçue : ", req.url);
+  
+
+//   const reqUrl = req.url;
+//   let parsedUrl = new URL(reqUrl, `https://${req.rawHeaders[1]}`);
+//   parsedUrl;
+//   console.log( `la req.rawheaders`, req.rawHeaders[1])
+  
+
+//   let filePath = "";
+//   let mimeType = "text/plain";
+//   let statusCode;
+
+//   switch (reqUrl) {
+//     case "/home.html":
+//       (statusCode = 200), (filePath = "./home.html");
+//       mimeType = "text/html";
+//       break;
+//     case "/homepost.html":
+//       (statusCode = 200), (filePath = "./homepost.html");
+//       mimeType = "text/html";
+//       break;
+
+//     case "/about.html":
+//       (statusCode = 200), (filePath = "./about.html");
+//       mimeType = "text/html";
+//       break;
+
+//     default:
+//       statusCode = 404;
+//       filePath = "./404.html";
+//       mimeType = "text/html";
+//       break;
+//   }
+
+  
+
+    
+    
+//     if (reqUrl.includes('.css')) {
+//       statusCode = 200;
+//       mimeType = 'text/css';
+//       filePath = './style.css';
+//     }
+//     if(reqUrl.includes('.jpg')) {
+//       statusCode = 200;
+//       mimeType = 'image/jpeg';
+//       filePath = path.join(__dirname + reqUrl);
+//     }
+//     if(reqUrl.includes('.gif')) {
+//       statusCode = 200;
+//       mimeType = 'image/gif';
+//       filePath = path.join(__dirname + reqUrl);
+//     }
+    
+//     if(reqUrl.includes('png')) {
+//       statusCode = 200;
+//       mimeType = 'image/png';
+//       filePath = path.join(__dirname + reqUrl)
+//     }
+    
+//     if(reqUrl.includes('pdf')){
+//       statusCode = 200;
+//       mimeType = 'application/pdf';
+//       filePath = path.join(__dirname + reqUrl)
+//     }
+
+//     if(reqUrl.includes('home.html')){
+//       statusCode = 200;
+//       mimeType = 'text/html';
+//       filePath = path.join(__dirname + "/home.html")
+//     }
+
+//     if(reqUrl.includes('about.html')){
+//       statusCode = 200;
+//       mimeType = 'text/html';
+//       filePath = path.join(__dirname + "/about.html")
+//     }
+
+//     if(reqUrl.includes('traitement.html')){
+//       statusCode = 200;
+//       mimeType = 'text/html';
+//       filePath = path.join(__dirname + "/traitement.html")
+//     }
+    
+//   //////////////////////////////////////////////////////////////////////////////////////// 
+//   //////////////////////////////////////////////////////////////////////////////////////// 
+//     // traitement de l'URL dans le corps de la requête
+// let titrepost="";
+// let descriptifpost="";
+// let datepost="";
+
+
+
+//   let queryString =``;
+//   req.on('data', function(morceauDeQueryString) {
+//     queryString += morceauDeQueryString;
+//   })
+//   req.on('end', function() {
+//     queryString;
+//     console.log(`la queryString :`, queryString)
+    
+//     let params = new URLSearchParams(queryString);
+//     titrepost = params.get('titre');
+//     descriptifpost = params.get('descriptif');
+//     datepost = params.get('date');
+    
+//     console.log( `titre query string corps `, titrepost)
+//     console.log( `descriptif query string corps `, descriptifpost)
+//     console.log( `date query string corps `, datepost);
+
+     
+//   })
+//   console.log( ` dehors titre query string corps `, titrepost)
+//     console.log( ` dehors descriptif query string corps `, descriptifpost)
+//     console.log( ` dehors date query string corps `, datepost);
+     
+//   ////////////////////////////////////////////////////////////////////////////////////////
+//   ////////////////////////////////////////////////////////////////////////////////////////
+
+//     // console.log("chemin du fichier demandé : ", filePath);
+    
+//     let date = new Date();
+//     let dateFrance = date.toLocaleDateString("fr-FR");
+//     const urlParams = new URLSearchParams(reqUrl);
+//     // console.log(`url params `, urlParams)
+
+//   let nom = parsedUrl.searchParams.get("name");
+//   let prenom = parsedUrl.searchParams.get("firstname");
+//   let titre = parsedUrl.searchParams.get('titre');
+//   let description = parsedUrl.searchParams.get('descriptif');
+//   let dateForm = parsedUrl.searchParams.get('date');
+  
+//   console.log(dateForm)
+
+//   console.log((`titre : `,titre, `description :`,description,`date formulaire `, dateForm))
+
+
+//   // console.log(`nom et prénom de url `, nom, prenom)
+//   if(nom === null) {
+//     nom = "Nom"
+//   };
+//   if(prenom === null) {
+//     prenom = "prénom"
+//   }
+
+//   fs.readFile(filePath, (err, data) => {
+//     if (err) {
+//       throw new Error(err);
+//     } else {
+//       let file = data;
+//       // console.log("file ", file);
+
+//       if (reqUrl.includes(".html")) {
+//         file = file.toString().replace("##dateDuJour##", dateFrance);
+//         // console.log("file pour home.html :",file);
+//       }
+
+//       if (reqUrl.includes("/about.html")) {
+//         file = file
+//           .toString()
+//           .replace("{{ nom }}", nom)
+//           .replace("{{ prenom }}", prenom);
+//       }
+
+//       if(reqUrl.includes('/traitement.html')){
+//         file = file
+//         .toString()
+//         .replace("{{ titre }}", titre)
+//         .replace("{{ description }}", description )
+//         .replace("{{ date }}", dateForm )
+//       }
+
+//       res.writeHead(statusCode, {
+//         "Content-Type": mimeType,
+//         "Content-Length": Buffer.byteLength(file),
+//       });
+//       res.write(file);
+//       res.end();
+//     }
+//   });
+// });
+
+// server.listen(8080);
+
+/**
+ * Sami Radi - VirtuoWorks® - tous droits réservés©
+ **/
+
+const { Console } = require("console");
 const http = require("http");
 const server = http.createServer();
-const fs = require("fs");
-// let status = "";
-// let mimeType = "text/html";
-const process = require("process");
-const path = require('path');
-const { homedir } = require("os");
-const dossierExecution = process.cwd().normalize();
-// let filePath = "";
 
 server.on("request", (req, res) => {
-  console.log("requête reçue : ", req.url);
-  
+  req;
+  res;
 
-  const reqUrl = req.url;
-  let parsedUrl = new URL(reqUrl, `https://${req.rawHeaders[1]}`);
-  parsedUrl;
-  console.log( `la req.rawheaders`, req.rawHeaders[1])
-  
+  let method = req.method;
 
-  let filePath = "";
-  let mimeType = "text/plain";
-  let statusCode;
+  if (method === GET) {
+    const reqUrl = req.url;
+    let parsedUrl = new URL(reqUrl, `https://${req.rawHeaders[1]}`);
+    parsedUrl;
+    console.log(`la req.rawheaders`, req.rawHeaders[1]);
 
-  switch (reqUrl) {
-    case "/home.html":
-      (statusCode = 200), (filePath = "./home.html");
-      mimeType = "text/html";
-      break;
-    case "/homepost.html":
-      (statusCode = 200), (filePath = "./homepost.html");
-      mimeType = "text/html";
-      break;
+    let filePath = "";
+    let mimeType = "text/plain";
+    let statusCode;
 
-    case "/about.html":
-      (statusCode = 200), (filePath = "./about.html");
-      mimeType = "text/html";
-      break;
+    switch (reqUrl) {
+      case "/home.html":
+        (statusCode = 200), (filePath = "./home.html");
+        mimeType = "text/html";
+        break;
+      case "/homepost.html":
+        (statusCode = 200), (filePath = "./homepost.html");
+        mimeType = "text/html";
+        break;
 
-    default:
-      statusCode = 404;
-      filePath = "./404.html";
-      mimeType = "text/html";
-      break;
-  }
+      case "/about.html":
+        (statusCode = 200), (filePath = "./about.html");
+        mimeType = "text/html";
+        break;
 
-  
-
-    
-    
-    if (reqUrl.includes('.css')) {
-      statusCode = 200;
-      mimeType = 'text/css';
-      filePath = './style.css';
+      default:
+        statusCode = 404;
+        filePath = "./404.html";
+        mimeType = "text/html";
+        break;
     }
-    if(reqUrl.includes('.jpg')) {
+
+    if (reqUrl.includes(".css")) {
       statusCode = 200;
-      mimeType = 'image/jpeg';
+      mimeType = "text/css";
+      filePath = "./style.css";
+    }
+    if (reqUrl.includes(".jpg")) {
+      statusCode = 200;
+      mimeType = "image/jpeg";
       filePath = path.join(__dirname + reqUrl);
     }
-    if(reqUrl.includes('.gif')) {
+    if (reqUrl.includes(".gif")) {
       statusCode = 200;
-      mimeType = 'image/gif';
+      mimeType = "image/gif";
       filePath = path.join(__dirname + reqUrl);
     }
-    
-    if(reqUrl.includes('png')) {
+
+    if (reqUrl.includes("png")) {
       statusCode = 200;
-      mimeType = 'image/png';
-      filePath = path.join(__dirname + reqUrl)
-    }
-    
-    if(reqUrl.includes('pdf')){
-      statusCode = 200;
-      mimeType = 'application/pdf';
-      filePath = path.join(__dirname + reqUrl)
+      mimeType = "image/png";
+      filePath = path.join(__dirname + reqUrl);
     }
 
-    if(reqUrl.includes('home.html')){
+    if (reqUrl.includes("pdf")) {
       statusCode = 200;
-      mimeType = 'text/html';
-      filePath = path.join(__dirname + "/home.html")
+      mimeType = "application/pdf";
+      filePath = path.join(__dirname + reqUrl);
     }
 
-    if(reqUrl.includes('about.html')){
+    if (reqUrl.includes("home.html")) {
       statusCode = 200;
-      mimeType = 'text/html';
-      filePath = path.join(__dirname + "/about.html")
+      mimeType = "text/html";
+      filePath = path.join(__dirname + "/home.html");
     }
 
-    if(reqUrl.includes('traitement.html')){
+    if (reqUrl.includes("about.html")) {
       statusCode = 200;
-      mimeType = 'text/html';
-      filePath = path.join(__dirname + "/traitement.html")
+      mimeType = "text/html";
+      filePath = path.join(__dirname + "/about.html");
     }
-    
-  //////////////////////////////////////////////////////////////////////////////////////// 
-  //////////////////////////////////////////////////////////////////////////////////////// 
+
+    if (reqUrl.includes("traitement.html")) {
+      statusCode = 200;
+      mimeType = "text/html";
+      filePath = path.join(__dirname + "/traitement.html");
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////
     // traitement de l'URL dans le corps de la requête
-let titrepost="";
-let descriptifpost="";
-let datepost="";
+    let titrepost = "";
+    let descriptifpost = "";
+    let datepost = "";
 
+    let queryString = ``;
+    req.on("data", function (morceauDeQueryString) {
+      queryString += morceauDeQueryString;
+    });
+    req.on("end", function () {
+      queryString;
+      console.log(`la queryString :`, queryString);
 
+      let params = new URLSearchParams(queryString);
+      titrepost = params.get("titre");
+      descriptifpost = params.get("descriptif");
+      datepost = params.get("date");
 
-  let queryString =``;
-  req.on('data', function(morceauDeQueryString) {
-    queryString += morceauDeQueryString;
-  })
-  req.on('end', function() {
-    queryString;
-    console.log(`la queryString :`, queryString)
-    
-    let params = new URLSearchParams(queryString);
-    titrepost = params.get('titre');
-    descriptifpost = params.get('descriptif');
-    datepost = params.get('date');
-    
-    console.log( `titre query string corps `, titrepost)
-    console.log( `descriptif query string corps `, descriptifpost)
-    console.log( `date query string corps `, datepost);
+      console.log(`titre query string corps `, titrepost);
+      console.log(`descriptif query string corps `, descriptifpost);
+      console.log(`date query string corps `, datepost);
+    });
+    console.log(` dehors titre query string corps `, titrepost);
+    console.log(` dehors descriptif query string corps `, descriptifpost);
+    console.log(` dehors date query string corps `, datepost);
 
-     
-  })
-  console.log( ` dehors titre query string corps `, titrepost)
-    console.log( ` dehors descriptif query string corps `, descriptifpost)
-    console.log( ` dehors date query string corps `, datepost);
-     
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////
 
     // console.log("chemin du fichier demandé : ", filePath);
-    
+
     let date = new Date();
     let dateFrance = date.toLocaleDateString("fr-FR");
     const urlParams = new URLSearchParams(reqUrl);
     // console.log(`url params `, urlParams)
 
-  let nom = parsedUrl.searchParams.get("name");
-  let prenom = parsedUrl.searchParams.get("firstname");
-  let titre = parsedUrl.searchParams.get('titre');
-  let description = parsedUrl.searchParams.get('descriptif');
-  let dateForm = parsedUrl.searchParams.get('date');
-  
-  console.log(dateForm)
+    let nom = parsedUrl.searchParams.get("name");
+    let prenom = parsedUrl.searchParams.get("firstname");
+    let titre = parsedUrl.searchParams.get("titre");
+    let description = parsedUrl.searchParams.get("descriptif");
+    let dateForm = parsedUrl.searchParams.get("date");
 
-  console.log((`titre : `,titre, `description :`,description,`date formulaire `, dateForm))
+    console.log(dateForm);
 
+    console.log(
+      (`titre : `,
+      titre,
+      `description :`,
+      description,
+      `date formulaire `,
+      dateForm)
+    );
 
-  // console.log(`nom et prénom de url `, nom, prenom)
-  if(nom === null) {
-    nom = "Nom"
-  };
-  if(prenom === null) {
-    prenom = "prénom"
-  }
-
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      throw new Error(err);
-    } else {
-      let file = data;
-      // console.log("file ", file);
-
-      if (reqUrl.includes(".html")) {
-        file = file.toString().replace("##dateDuJour##", dateFrance);
-        // console.log("file pour home.html :",file);
-      }
-
-      if (reqUrl.includes("/about.html")) {
-        file = file
-          .toString()
-          .replace("{{ nom }}", nom)
-          .replace("{{ prenom }}", prenom);
-      }
-
-      if(reqUrl.includes('/traitement.html')){
-        file = file
-        .toString()
-        .replace("{{ titre }}", titre)
-        .replace("{{ description }}", description )
-        .replace("{{ date }}", dateForm )
-      }
-
-      res.writeHead(statusCode, {
-        "Content-Type": mimeType,
-        "Content-Length": Buffer.byteLength(file),
-      });
-      res.write(file);
-      res.end();
+    // console.log(`nom et prénom de url `, nom, prenom)
+    if (nom === null) {
+      nom = "Nom";
     }
-  });
+    if (prenom === null) {
+      prenom = "prénom";
+    }
+
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        throw new Error(err);
+      } else {
+        let file = data;
+        // console.log("file ", file);
+
+        if (reqUrl.includes(".html")) {
+          file = file.toString().replace("##dateDuJour##", dateFrance);
+          // console.log("file pour home.html :",file);
+        }
+
+        if (reqUrl.includes("/about.html")) {
+          file = file
+            .toString()
+            .replace("{{ nom }}", nom)
+            .replace("{{ prenom }}", prenom);
+        }
+
+        if (reqUrl.includes("/traitement.html")) {
+          file = file
+            .toString()
+            .replace("{{ titre }}", titre)
+            .replace("{{ description }}", description)
+            .replace("{{ date }}", dateForm);
+        }
+
+        res.writeHead(statusCode, {
+          "Content-Type": mimeType,
+          "Content-Length": Buffer.byteLength(file),
+        });
+        res.write(file);
+        res.end();
+      }
+    });
+
+    if (method === POST) {
+      let donnees = "";
+      req.on("data", function (morceauDeQueryString) {
+        donnees += morceauDeQueryString;
+      });
+      req.on("end", function () {
+        donnees;
+        doneesEnJSON = new URLSearchParams(req.body);
+
+        let titrePost = doneesEnJSON.get("titre");
+        let descriptionPost = doneesEnJSON.get("descriptif");
+        let dateFormPost = doneesEnJSON.get("date");
+
+        fs.readFile("./traitement.html", (err, data) => {
+          if (err) {
+            Console.log("erreur de chargement des données du formulaire");
+          } else {
+            let file = data
+              .toString()
+              .replace("{{ titre }}", titrePost)
+              .replace("{{ description }}", descriptionPost)
+              .replace("{{ date }}", dateFormPost);
+          }
+          res.writeHead(statusCode, {
+            "Content-Type": mimeType,
+            "Content-Length": Buffer.byteLength(file),
+          });
+          res.write(file);
+          res.end();
+        });
+      });
+    }
+  }
 });
-
 server.listen(8080);
-
-/**
- * Sami Radi - VirtuoWorks® - tous droits réservés©
- **/
